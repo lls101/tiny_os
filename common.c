@@ -1,6 +1,45 @@
 #include "common.h"
 void putchar(char ch);
 
+void *memcopy(void *dest,const void *src,size_t n){
+    uint8_t *d=(uint8_t*)dest;
+    const uint8_t *s=(const uint8_t*)src;
+    while(n--){
+        *d++ = *s++;
+    }
+    return dest;
+}
+
+void *memset(void *buf, char c,size_t n){
+    uint8_t *p = (uint8_t *)buf;
+    while(n--){
+        *p++ = c;
+    }
+    return buf;
+}
+
+
+char *strcopy(char *dest,const char *src){
+    char* d=dest;
+    while(*src){
+        *d++ = *src++;
+    }
+    *d='\0';
+    return dest;
+}
+
+
+int strcmp(const char *str1,const char *str2){
+    while(*str1 && *str2){
+        if(*str1 != *str2){
+            break;
+        }
+        str1++;
+        str2++;
+    }
+    return *(unsigned char*)str1-*(unsigned char*)str2;
+}
+
 void printf(const char* fmt,...){
     va_list vargs;
     va_start(vargs, fmt);
