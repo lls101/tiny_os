@@ -4,6 +4,12 @@ typedef unsigned char uint8_t;
 typedef unsigned int uint32_t;
 typedef uint32_t size_t;
 
+#define PANIC(fmt,...) \
+    do{ \
+        printf("Kernel panic at %s:%d: " fmt "\n", __FILE__,__LINE__, ##__VA_ARGS__);\ 
+        while(1){} \
+    }while(0)
+
 extern char __bss[], __bss_end[], __stack_top[];
 
 void putchar(char ch);
@@ -58,11 +64,15 @@ void putchar(char ch){
 
 void kernel_main(void)
 {
-    printf("\n\nHello %s\n", "World!");
-    printf("1 + 2 = %d, %x\n", 1 + 2,65456);
-    for(;;){
-        __asm__ __volatile__ ("wfi");
-    }
+    // printf("\n\nHello %s\n", "World!");
+    // printf("1 + 2 = %d, %x\n", 1 + 2,65456);
+    // for(;;){
+    //     __asm__ __volatile__ ("wfi");
+    // }
+
+    memset(__bss, 0, (size_t) __bss_end - (size_t) __bss);
+    PANIC("booted!");
+    printf("unreachable here!\n");
 }
 
 
