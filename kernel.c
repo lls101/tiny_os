@@ -1,10 +1,12 @@
 #include "kernel.h"
+#include "common.h"
 typedef unsigned char uint8_t;
 typedef unsigned int uint32_t;
 typedef uint32_t size_t;
 
 extern char __bss[], __bss_end[], __stack_top[];
 
+void putchar(char ch);
 /**
  * @brief Performs an SBI (Supervisor Binary Interface) call.
  *
@@ -24,7 +26,7 @@ extern char __bss[], __bss_end[], __stack_top[];
  *         - .error: The error code returned by the SBI call.
  *         - .value: The value returned by the SBI call.
  */
-struct sbiret sbi_call(long arg0, long arg1, long arg2, long arg3, long arg4,
+struct sbiret   sbi_call(long arg0, long arg1, long arg2, long arg3, long arg4,
                        long arg5, long fid, long eid){
     register long a0 __asm__("a0") = arg0;
     register long a1 __asm__("a1") = arg1;
@@ -62,15 +64,14 @@ void *memset(void *buf, char c, size_t n)
 
 void kernel_main(void)
 {
-    const char* s="\n\nHello World!\n";
-    for(int i=0;s[i]!='\0';i++){
-        putchar(s[i]);
-    }
-
+    printf("\n\nHello %s\n", "World!");
+    printf("1 + 2 = %d, %x\n", 1 + 2,65456);
     for(;;){
         __asm__ __volatile__ ("wfi");
     }
 }
+
+
 
 __attribute__((section(".text.boot")))
 __attribute__((naked)) 
