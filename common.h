@@ -38,6 +38,8 @@ typedef uint32_t vaddr_t;
 #define is_aligned(value,align) __builtin_is_aligned(value,align)
 #define offsetof(type,member) __builtin_offsetof(type,member)
 
+#define PAGE_SIZE 4096
+
 
 void *memset(void *buf,char c,size_t n);
 void *memcopy(void* dest,const void* src,size_t n);
